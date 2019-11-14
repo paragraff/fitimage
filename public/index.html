@@ -5,9 +5,27 @@
   <title>Crop image</title>
 </head>
 <body>
-  <form action="/uploadmultiple" name="uploadImages" enctype="multipart/form-data" method="POST">
+  <form action="/uploadmultiple" method="POST">
     Select images: <input type="file" name="images" multiple>
-    <button type="submit" value="Upload your files"/>
+    <button type="submit">Upload your files</button>
   </form>
+  <script>
+      document.forms[0].onsubmit = function (event) {
+        event.preventDefault()
+
+        const form = event.target
+        let formData = new FormData()
+
+        Array.from(form.images.files).forEach(file => formData.append('images', file))
+
+        const response = fetch('/uploadmultiple', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json'
+          },
+          body: formData
+        })
+      }
+  </script>
 </body>
 </html>
