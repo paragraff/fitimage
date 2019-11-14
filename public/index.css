@@ -11,6 +11,12 @@ body {
     border-width: 2px;
     border-style: dashed;
     border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 60vh;
+}
+.dropbox input {
+    display: none;
 }
 .upload-btn {
     height: 60px;

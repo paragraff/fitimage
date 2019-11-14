@@ -1,9 +1,30 @@
 const inputElement = document.getElementsByName("images")[0]
-inputElement.addEventListener("change", handleFiles, false)
+inputElement.addEventListener('change', handleFiles, false)
 
-async function handleFiles (event) {
-  await refitImages(this.files)
-  resetInput(this)
+const fileChooseElement = document.querySelector('[name=dropbox]')
+fileChooseElement.addEventListener('click', chooseFiles, false)
+
+const uploadBtn = document.querySelector('[name=upload]')
+uploadBtn.addEventListener('click', uploadImages, false)
+
+const resultBox = document.querySelector('[name=result]')
+
+async function handleFiles(event) {
+  // show image preview in the dropbox
+}
+
+function chooseFiles(event) {
+  inputElement.click()
+}
+
+async function uploadImages() {
+  // send the files to refit
+  const images = await refitImages(inputElement.files)
+  // show result block with refited image links
+  showImages(images)
+  // reset function shouldn't be called immediately after upload
+  // we will clean form optionaly
+  resetInput(inputElement)
 }
 
 async function refitImages(images, input) {
@@ -17,9 +38,17 @@ async function refitImages(images, input) {
     },
     body: formData
   })
-  console.log(response)
+  const result = await response.json()
+  return result.status === 0 ? result.uploadedFiles : []
 }
 
 function resetInput(input) {
   input.value = ''
+}
+
+function showImages(images) {
+  const html = images.reduce((result, img) => {
+    return result + `<a href="${img}" download>${img}</a>`
+  }, '')
+  resultBox.innerHTML = html
 }

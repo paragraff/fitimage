@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const app = express()
 const multer = require('multer')
@@ -18,7 +19,8 @@ var upload = multer({ storage: storage })
 app.post('/upload', upload.array('images', 20), function (req, res, next) {
   res.type('application/json')
   if(req.files) {
-    res.send(JSON.parse(JSON.stringify({uploadedFiles: req.files, status: 0})))
+    const files = handleFiles(req.files)
+    res.send(JSON.parse(JSON.stringify({uploadedFiles: files, status: 0})))
   } else {
     res.send({status: 1})
   }
@@ -31,6 +33,13 @@ function clearOldImages () {
   }, 1000 * 60 * 5)
 }
 clearOldImages()
+
+function handleFiles(files) {
+  return files.map(file => {
+    const pathToImg = file.path
+    return 'images/' + path.parse(pathToImg).base
+  })
+}
 
 
 app.listen(3000, () => console.log('Server started on port 3000'))
