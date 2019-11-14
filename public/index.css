@@ -24,3 +24,12 @@ body {
     margin: auto;
     text-transform: uppercase;
 }
+[name=result] {
+    margin:auto;
+    width: 80vw;
+}
+.fit-image {
+    height: 40px;
+    line-height: 40px;
+    margin: 0 8px;
+}

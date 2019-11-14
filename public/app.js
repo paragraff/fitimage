@@ -48,7 +48,7 @@ function resetInput(input) {
 
 function showImages(images) {
   const html = images.reduce((result, img) => {
-    return result + `<a href="${img}" download>${img}</a>`
+    return result + `<a class="fit-image" href="${img}" download>${img.split('/')[1]}</a>`
   }, '')
   resultBox.innerHTML = html
 }
