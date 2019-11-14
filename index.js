@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const app = express()
 const multer = require('multer')
+const sharp = require('sharp')
 
 app.use(express.static(__dirname + '/public'))
 
@@ -16,10 +17,10 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
-app.post('/upload', upload.array('images', 20), function (req, res, next) {
+app.post('/upload', upload.array('images', 20), async function (req, res, next) {
   res.type('application/json')
   if(req.files) {
-    const files = handleFiles(req.files)
+    const files = await handleFiles(req.files)
     res.send(JSON.parse(JSON.stringify({uploadedFiles: files, status: 0})))
   } else {
     res.send({status: 1})
@@ -34,10 +35,19 @@ function clearOldImages () {
 }
 clearOldImages()
 
-function handleFiles(files) {
+async function handleFiles(files) {
+  await Promise.all(files.map(file => {
+    return sharp(file.path)
+    .metadata()
+    .then(data => {
+      return sharp(file.path)
+      .resize({width: Math.min(830, data.width)})
+      .toFile('public/result/' + path.parse(file.path).base)
+    })
+  }))
   return files.map(file => {
     const pathToImg = file.path
-    return 'images/' + path.parse(pathToImg).base
+    return 'result/' + path.parse(pathToImg).base
   })
 }
 

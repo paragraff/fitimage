@@ -3,3 +3,5 @@
 node_modules
 public/images/*.*
 !public/images/.gitignore
+public/result/*.*
+!public/result/.gitignore
