@@ -15,11 +15,22 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
-app.post('/uploadmultiple', upload.array('images', 20), function (req, res, next) {
+app.post('/upload', upload.array('images', 20), function (req, res, next) {
+  res.type('application/json')
   if(req.files) {
-    res.type('application/json')
-    res.send(JSON.parse(JSON.stringify({"uploadedFiles": req.files})))
+    res.send(JSON.parse(JSON.stringify({uploadedFiles: req.files, status: 0})))
+  } else {
+    res.send({status: 1})
   }
 })
+
+function clearOldImages () {
+  setTimeout(() => {
+    console.log('i\'ll remove all old images. Soon...')
+    clearOldImages()
+  }, 1000 * 60 * 5)
+}
+clearOldImages()
+
 
 app.listen(3000, () => console.log('Server started on port 3000'))

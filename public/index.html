@@ -3,29 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Crop image</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
-  <form action="/uploadmultiple" method="POST">
-    Select images: <input type="file" name="images" multiple>
-    <button type="submit">Upload your files</button>
-  </form>
-  <script>
-      document.forms[0].onsubmit = function (event) {
-        event.preventDefault()
-
-        const form = event.target
-        let formData = new FormData()
-
-        Array.from(form.images.files).forEach(file => formData.append('images', file))
-
-        const response = fetch('/uploadmultiple', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json'
-          },
-          body: formData
-        })
-      }
-  </script>
+  <div class="dropbox">
+    <input type="file" name="images" multiple>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
