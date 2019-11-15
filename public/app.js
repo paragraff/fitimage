@@ -11,6 +11,9 @@ const resultBox = document.querySelector('[name=result]')
 
 async function handleFiles(event) {
   // show image preview in the dropbox
+  if (inputElement.files.length) {
+    fileChooseElement.innerHTML = 'Ok, now press the button!'
+  }
 }
 
 function chooseFiles(event) {
@@ -44,6 +47,7 @@ async function refitImages(images, input) {
 
 function resetInput(input) {
   input.value = ''
+  fileChooseElement.innerHTML = 'Click here to choose images'
 }
 
 function showImages(images) {

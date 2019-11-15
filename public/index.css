@@ -15,7 +15,7 @@ body {
     text-align: center;
     line-height: 60vh;
 }
-.dropbox input {
+input {
     display: none;
 }
 .upload-btn {
