@@ -4,6 +4,8 @@ const app = express()
 const multer = require('multer')
 const sharp = require('sharp')
 
+const port = process.env.PORT;
+
 app.use(express.static(__dirname + '/public'))
 
 var storage = multer.diskStorage({
@@ -52,4 +54,4 @@ async function handleFiles(files) {
 }
 
 
-app.listen(3000, () => console.log('Server started on port 3000'))
+app.listen(port, () => console.log(`Server started on port ${port}`))
